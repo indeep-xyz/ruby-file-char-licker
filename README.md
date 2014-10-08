@@ -95,7 +95,7 @@ return Integer object for the position of file pointer if succeed to move. else 
 
 I assume that the position of file pointer is start of line in run.
 
-### seek_contiguous_max(*args)
+### seek_contiguous_max
 
 ```ruby
 file.scan_contiguous_min(needle)

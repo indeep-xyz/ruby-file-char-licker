@@ -94,7 +94,7 @@ file.scan_contiguous_min(needle)
 
 実行時のファイルポインタは、行頭を想定しています。
 
-### seek_contiguous_max(*args)
+### seek_contiguous_max
 
 ```ruby
 file.scan_contiguous_min(needle)
