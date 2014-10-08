@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = FileCharLicker::VERSION
   spec.authors       = ["indeep-xyz"]
   spec.email         = ["indeep.xyz@gmail.com"]
-  spec.summary       = %q{move the position of file pointer in character-based and get string and.}
+  spec.summary       = %q{move the position of file pointer in character-based and get string.}
   spec.description   = <<EOT
 it has the following functions.
 
@@ -16,7 +16,7 @@ it has the following functions.
 - get string that is around the file pointer.
 - support for multi-byte character.
 EOT
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/indeep-xyz/ruby-file-char-licker"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
