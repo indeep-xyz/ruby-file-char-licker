@@ -203,7 +203,7 @@ module FileCharLicker
     # returner
     #   Integer object for file#pos
     #   EOS of matched line
-    def seek_contiguous_min(needle, step_lines = 2)
+    def seek_contiguous_min(needle, step_lines = 10)
 
       file = @file
       min  = nil

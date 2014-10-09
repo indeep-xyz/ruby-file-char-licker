@@ -93,8 +93,6 @@ move the position of file pointer to the start of line that matched the _needle_
 
 return Integer object for the position of file pointer if succeed to move. else return nil.
 
-I assume that the position of file pointer is start of line in run.
-
 ### seek_contiguous_max
 
 ```ruby
@@ -104,8 +102,6 @@ file.scan_contiguous_min(needle)
 move the position of file pointer to the end of line that matched the _needle_ argument. the line is contiguous and forward line from the file pointer at run. you can pass to _needle_ argument as String object or Regexp object.
 
 return Integer object for the position of file pointer if succeed to move. else return nil.
-
-I assume that the position of file pointer is start of line in run.
 
 ### seek_line_head
 
@@ -117,4 +113,4 @@ move the position of file pointer to the head of line.
 
 ## Author
 
-[indeep-xyz](http://indeep.xyz/)
+[indeep-xyz](http://indeep.xyz/) (Japanese language)
