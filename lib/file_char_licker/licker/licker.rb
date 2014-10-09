@@ -31,11 +31,19 @@ module FileCharLicker
       file.seek(pos)
       max = seek_contiguous_max(needle) || pos
 
+      # for debug
+      # p [
+      #     pos: pos,
+      #     min: min,
+      #     max: max
+      #   ].to_s
+      # sleep 0.05
+
       # read
       # - require succeed scan processes
       if max > min
         file.seek(min)
-        result = file.read(max - min).chomp
+        result = file.read(max - min)
       end
 
       result
@@ -77,13 +85,17 @@ module FileCharLicker
 
         char = backward_char
 
-        break if char.nil?
+        if char.nil?
+          file.rewind
+          break
+        end
 
         # backward pos as bytesize of char
         file.seek(-(char.bytesize), IO::SEEK_CUR)
 
-        result.insert(0, char)
         break if char.match(reg) && result.scan(reg).size > size
+
+        result.insert(0, char)
       end
 
       result
@@ -131,6 +143,9 @@ module FileCharLicker
       file     = @file
       max      = nil
 
+      # move to head of line
+      seek_line_head
+
       loop do
 
         # file#pos before #forward_lines
@@ -141,9 +156,9 @@ module FileCharLicker
 
         # for debug
         # p [
-        #   lines: lines,
+        #       lines: lines,
         #   lines_pos: lines_pos,
-        #   file_pos: file.pos
+        #    file_pos: file.pos
         #   ].to_s
         # sleep 0.05
 
@@ -153,17 +168,28 @@ module FileCharLicker
 
         lines_end_pos = str_byte_index(lines, /(\r\n|\r|\n)+?/, lines_pos)
 
-        if file.eof?
-          max = (lines_end_pos.nil?) ? file.size : pos_old + lines_end_pos
+        if lines_end_pos.nil?
+          max = file.size if file.eof?
           break
-        else
-          max = pos_old + lines_end_pos
-
-          break if lines_end_pos < lines.bytesize - 1
         end
 
+        max = pos_old + lines_end_pos
+
+        # for debug
+        # p [
+        #           lines: lines,
+        # lines_bytesize: lines.bytesize,
+        #       lines_pos: lines_pos,
+        #   lines_end_pos: lines_end_pos,
+        #        file_pos: file.pos
+        #   ].to_s
+        # sleep 0.05
+
+        break if file.eof?
+        break if lines_end_pos < lines.size - 1
       end
 
+      file.seek(max) unless max.nil?
       max
     end
 
@@ -177,10 +203,13 @@ module FileCharLicker
     # returner
     #   Integer object for file#pos
     #   EOS of matched line
-    def seek_contiguous_min(needle, step_lines = 10)
+    def seek_contiguous_min(needle, step_lines = 2)
 
       file = @file
       min  = nil
+
+      # move to head of line
+      seek_line_head
 
       loop do
 
@@ -200,11 +229,16 @@ module FileCharLicker
           break
         else
 
-          min = file_pos + lines_pos
+          min  = file_pos + lines_pos
+
+          # if not first line, add 1 to result
+          min += 1 if file_pos > 0
+
           break if lines_pos > 0 || file_pos < 1
         end
       end
 
+      file.seek(min) unless min.nil?
       min
     end
 

@@ -16,6 +16,9 @@ module FileCharLicker
     def around_lines(*args)
 
       lines = super(*args)
+      # p @nkf_option
+      # p NKF.nkf('-w', lines)
+      # p lines
       NKF.nkf(@nkf_option, lines)
     end
 
@@ -82,7 +85,13 @@ module FileCharLicker
       mb_idx = haystack.index(needle, offset)
 
       unless mb_idx.nil?
-        result = haystack.slice(0..mb_idx).bytesize - 1
+
+        if mb_idx < 1
+          result = 0
+        else
+          matched = haystack.slice(0..mb_idx)
+          result  = matched.bytesize - matched[-1].bytesize
+        end
       end
 
       result
