@@ -1,4 +1,4 @@
-require "kconv"
+# coding: utf-8
 
 module FileCharLicker
   class Licker

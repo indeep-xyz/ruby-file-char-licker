@@ -1,3 +1,7 @@
+# coding: utf-8
+
+require "kconv"
+
 module FileCharLicker
   class MbLicker < FileCharLicker::Licker
 
